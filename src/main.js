@@ -1,24 +1,31 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 
 import Antd from 'ant-design-vue';
-import 'ant-design-vue/dist/antd.css';
-Vue.use(Antd);
+import 'ant-design-vue/dist/reset.css';
 
 import {hiPrintPlugin} from './index'
-Vue.use(hiPrintPlugin)
-// hiPrintPlugin.disAutoConnect();
 
-import Storage from 'vue-ls'
-let options = {
-  namespace: 'hiPrint-',
-  name: 'ls',
-  storage: 'local',
-};
-Vue.use(Storage, options);
+// localStorage 工具函数 (替代 vue-ls)
+const storage = {
+  get(key, defaultValue = null) {
+    try {
+      const value = localStorage.getItem('hiPrint-' + key)
+      return value ? JSON.parse(value) : defaultValue
+    } catch {
+      return defaultValue
+    }
+  },
+  set(key, value) {
+    localStorage.setItem('hiPrint-' + key, JSON.stringify(value))
+  },
+  remove(key) {
+    localStorage.removeItem('hiPrint-' + key)
+  }
+}
 
-Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+const app = createApp(App)
+app.use(Antd)
+app.use(hiPrintPlugin)
+app.config.globalProperties.$ls = storage
+app.mount('#app')

@@ -7,11 +7,10 @@
     </a-space>
     <a-row type="flex" class="menus">
       <a-button-group>
-        <template v-for="demo in demoList">
+        <template v-for="demo in demoList" :key="demo.name">
           <a-button
             :type="demo.name === curDemo ? 'primary' : 'info'"
             @click="curDemo = demo.name"
-            :key="demo.name"
           >
             {{ demo.title }}
           </a-button>

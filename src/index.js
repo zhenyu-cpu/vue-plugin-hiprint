@@ -33,19 +33,21 @@ let disAutoConnect = function() {
 
 let hiPrintPlugin = {
   disAutoConnect,
-  install: function (Vue, name = '$hiPrint', autoConnect = true) {
+  install: function (app, name = '$hiPrint', autoConnect = true) {
     if (!autoConnect) {
       disAutoConnect();
     }
-    let globalVue = Vue.prototype || Vue.config.globalProperties;
-    globalVue[name] = hiprint;
+    // Vue 3: 使用 app.config.globalProperties
+    // Vue 2 fallback: 使用 Vue.prototype
+    const globalProps = app.config?.globalProperties || app.prototype || {};
+    globalProps[name] = hiprint;
     /**
    * 预览打印，调起系统打印预览
 	 * provider 左侧拖拽元素
 	 * template 模版json字符串
 	 * args 打印数据data, options,
 	 */
-	 globalVue.$print = function (provider = defaultElementTypeProvider, template, ...args) {
+	 globalProps.$print = function (provider = defaultElementTypeProvider, template, ...args) {
 		 hiprint.init({
 			providers: [new provider()]
 		});
@@ -61,7 +63,7 @@ let hiPrintPlugin = {
 	  * template 模版json字符串
 	  * args 打印数据data, options,
 	  */
-	 globalVue.$print2 = function (provider = defaultElementTypeProvider, template, ...args) {
+	 globalProps.$print2 = function (provider = defaultElementTypeProvider, template, ...args) {
 		 hiprint.init({
 			providers: [new provider()]
 		});

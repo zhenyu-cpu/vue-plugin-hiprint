@@ -3,8 +3,8 @@
     <div style="display: flex;flex-direction: column">
       <a-space style="margin-bottom: 10px">
         <a-button-group>
-          <template v-for="(value,type) in paperTypes">
-            <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)" :key="type">
+          <template v-for="(value,type) in paperTypes" :key="type">
+            <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)">
               {{ type }}
             </a-button>
           </template>
@@ -463,9 +463,9 @@ export default {
      */
     getPanel() {
       // 加载所有 panel
-      const panels = require.context('./', true, /panel.*\.js$/)
+      const panelModules = import.meta.glob('./panel*.js', { eager: true })
       // 对所有 panel 进行版本解析
-      var panelInfos = panels.keys().map(key => ({
+      var panelInfos = Object.keys(panelModules).map(key => ({
         ...decodeVer(key.replace(/(\.\/panel-?)|(\.js)/g, '')),
         key
       }))
@@ -478,11 +478,11 @@ export default {
           // 对版本号进行倒叙
           .sort((acc, curr) => curr.verVal - acc.verVal)
         // 获取最大版本号面板 json
-        panel = panels(newVers[0].key).default
+        panel = panelModules[newVers[0].key].default
       }
       // 不存在固定版本，加载默认面板 json
       else {
-        panel = panels('./panel.js').default
+        panel = panelModules['./panel.js'].default
       }
     },
     /**
@@ -902,24 +902,7 @@ export default {
       }
       this.$error({
         title: "客户端未连接",
-        content: (h) => (
-          <div>
-            连接【{hiwebSocket.host}】失败！
-            <br/>
-            请确保目标服务器已
-            <a
-              href="https://gitee.com/CcSimple/electron-hiprint/releases"
-              target="_blank"
-            >
-              下载
-            </a>
-            并
-            <a href="hiprint://" target="_blank">
-              运行
-            </a>
-            打印服务！
-          </div>
-        ),
+        content: '连接【' + hiwebSocket.host + '】失败！请确保目标服务器已下载并运行打印服务！',
       });
     },
     handleMenuClick(e) {
@@ -956,24 +939,7 @@ export default {
       }
       this.$error({
         title: "客户端未连接",
-        content: (h) => (
-          <div>
-            连接【{hiwebSocket.host}】失败！
-            <br/>
-            请确保目标服务器已
-            <a
-              href="https://gitee.com/CcSimple/electron-hiprint/releases"
-              target="_blank"
-            >
-              下载
-            </a>
-            并
-            <a href="hiprint://" target="_blank">
-              运行
-            </a>
-            打印服务！
-          </div>
-        ),
+        content: '连接【' + hiwebSocket.host + '】失败！请确保目标服务器已下载并运行打印服务！',
       });
     },
     clearPaper() {
