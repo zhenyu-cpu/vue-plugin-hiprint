@@ -54,7 +54,7 @@ import vImg from "./css/image/v_img.svg";
 import {jsPDF} from "jspdf";
 import domtoimage from 'dom-to-image-more'
 // 数字转中文,大写,金额
-import Nzh from "nzh/dist/nzh.min.js";
+import Nzh from "nzh";
 // 解析svg 到 canvas, 二维码条形码需要
 import Canvg from 'canvg';
 // 默认自定义拖拽列表
@@ -65,9 +65,9 @@ window.autoConnect = true;
 window.io = io;
 
 var languages = {}
-const ctx = require.context("../i18n", true, /\.json$/);
-ctx.keys().forEach(key => {
-  languages[key.match(/\.\/([^.]+)/)[1]] = ctx(key)
+const i18nModules = import.meta.glob('../i18n/*.json', { eager: true })
+Object.keys(i18nModules).forEach(key => {
+  languages[key.match(/\/([^/]+)\.json$/)[1]] = i18nModules[key].default
 })
 
 var i18n = {

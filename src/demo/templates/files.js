@@ -1,11 +1,11 @@
 import {preview} from "./template-files/template1";
 
-const files = require.context('./template-files', false, /\.js$/)
+const files = import.meta.glob('./template-files/*.js', { eager: true })
 
 const templates = {}
-files.keys().forEach(key => {
-  let templateKey = key.replace(/\.\//, '').replace(/(\.js)/, '');
-  templates[templateKey] = Object.assign(templates[templateKey] || {}, files(key).default)
+Object.keys(files).forEach(key => {
+  let templateKey = key.replace('./template-files/', '').replace(/\.js$/, '');
+  templates[templateKey] = Object.assign(templates[templateKey] || {}, files[key].default)
 })
 
 export default templates

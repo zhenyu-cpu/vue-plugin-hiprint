@@ -3,7 +3,7 @@ export const desc = "通过HTML元素实现自定义表格";
 export const author = "54xavier";
 export const link = "https://ccsimple.gitee.io/vue-plugin-hiprint/";
 // url 或者 base64 或者 require('../../../assets/logo.png')
-export const preview = "/static/template8.png";
+export const preview = `${import.meta.env.BASE_URL}/static/template8.png`;
 export const printData = {
   department: "技术部",
   position: "前端开发工程师",

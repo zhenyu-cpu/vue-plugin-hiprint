@@ -1,8 +1,8 @@
 <template>
   <a-card>
     <div class="templates">
-      <template v-for="(template, key) in templates">
-        <div class="item-box" :key="key" @click="show(template)">
+      <template v-for="(template, key) in templates" :key="key">
+        <div class="item-box" @click="show(template)">
           <a-popover v-if="template.preview">
             <template #content>
               <img style="cursor: pointer" :src="template.preview" @click="show(template)"/>

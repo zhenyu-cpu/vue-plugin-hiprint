@@ -5,13 +5,12 @@
       <img src="./assets/hi.png" />
       <div>期待大家的参与😁</div>
     </a-space>
-    <a-row type="flex" class="menus">
+    <a-row class="menus">
       <a-button-group>
-        <template v-for="demo in demoList">
+        <template v-for="demo in demoList" :key="demo.name">
           <a-button
-            :type="demo.name === curDemo ? 'primary' : 'info'"
+            :type="demo.name === curDemo ? 'primary' : 'default'"
             @click="curDemo = demo.name"
-            :key="demo.name"
           >
             {{ demo.title }}
           </a-button>
@@ -20,17 +19,17 @@
       <div style="margin-left: 20px" />
       <a-button
         style="width: 200px; font-size: 16px"
-        :type="'templates' === curDemo ? 'primary' : 'info'"
-        icon="file-search"
+        :type="'templates' === curDemo ? 'primary' : 'default'"
         @click="curDemo = 'templates'"
       >
+        <template #icon><FileSearchOutlined /></template>
         模 板 中 心
       </a-button>
       <div style="margin-left: 20px"></div>
       <a-select
         v-if="curDemo == 'printDesign'"
         ref="verSelect"
-        v-model="version"
+        v-model:value="version"
         :options="versions"
         @change="handleVerChange"
         style="width: 160px"
@@ -40,7 +39,7 @@
       <a-select
         v-if="i18nSupport"
         ref="i18nSelect"
-        v-model="lang"
+        v-model:value="lang"
         :options="languages"
         @change="handleLangChange"
         style="width: 160px"
@@ -62,6 +61,8 @@ import printPanels from "@/demo/panels/index";
 import templates from "@/demo/templates/index";
 import { decodeVer } from "@/utils";
 
+import { FileSearchOutlined } from "@ant-design/icons-vue";
+
 export default {
   name: "App",
   components: {
@@ -70,6 +71,7 @@ export default {
     printTasks,
     printPanels,
     templates,
+    FileSearchOutlined,
   },
   data() {
     return {
@@ -162,7 +164,7 @@ export default {
               value: version,
             }))
             .reverse();
-          if (process.env.NODE_ENV === "development") {
+          if (import.meta.env.DEV) {
             this.versions.unshift({
               label: "development",
               value: "development",

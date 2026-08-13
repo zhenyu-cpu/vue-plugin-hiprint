@@ -10,7 +10,7 @@ export const author = "54xavier";
 export const link = "https://ccsimple.gitee.io/vue-plugin-hiprint/";
 // url 或者 base64 或者 require('../../../assets/logo.png')
 export const preview =
-  "/static/template6.png";
+  `${import.meta.env.BASE_URL}/static/template6.png`;
 function getRandomInt({ min = 10, max = 200 }) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
