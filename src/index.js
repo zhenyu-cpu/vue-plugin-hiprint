@@ -5,6 +5,8 @@ import "./hiprint/plugins/jquery.hiwprint.js";
 import "./hiprint/hiprint.config";
 // 样式
 import "./hiprint/css/hiprint.css"
+// antdv v5 视觉皮肤：覆盖右侧属性面板原生控件样式
+import "./hiprint/css/hiprint-antdv.css"
 import "./hiprint/css/print-lock.css"
 
 import {version} from '../package.json'
