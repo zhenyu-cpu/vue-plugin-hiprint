@@ -168,160 +168,131 @@
         </a-button>
         <a-radio-group>
           <a-radio-button @click="setElsAlign('left')" title="左对齐">
-            <span class="glyphicon glyphicon-object-align-left"></span>
+            <template #default><AlignLeftOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('vertical')" title="居中">
-            <span class="glyphicon glyphicon-object-align-vertical"></span>
+            <template #default><AlignCenterOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('right')" title="右对齐">
-            <span class="glyphicon glyphicon-object-align-right"></span>
+            <template #default><AlignRightOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('top')" title="顶部对齐">
-            <span class="glyphicon glyphicon-object-align-top"></span>
+            <template #default><VerticalAlignTopOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('horizontal')" title="垂直居中">
-            <span class="glyphicon glyphicon-object-align-horizontal"></span>
+            <template #default><VerticalAlignMiddleOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('bottom')" title="底部对齐">
-            <span class="glyphicon glyphicon-object-align-bottom"></span>
+            <template #default><VerticalAlignBottomOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('distributeHor')" title="横向分散">
-            <span class="glyphicon glyphicon-resize-horizontal"></span>
+            <template #default><ColumnWidthOutlined /></template>
           </a-radio-button>
           <a-radio-button @click="setElsAlign('distributeVer')" title="纵向分散">
-            <span class="glyphicon glyphicon-resize-vertical"></span>
+            <template #default><ColumnHeightOutlined /></template>
           </a-radio-button>
         </a-radio-group>
       </a-space>
     </div>
     <a-row :gutter="[8,0]">
       <a-col :span="4">
-        <a-card style="height: 100vh">
-          <a-row>
-            <a-col :span="24" class="rect-printElement-types hiprintEpContainer">
-              <a-row class="drag_item_title">拖拽组件列表</a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.text" style>
-                      <span class="glyphicon glyphicon-text-width" aria-hidden="true"></span>
-                      <p class="glyphicon-class">文本</p>
+        <div class="element-sidebar">
+          <div class="sidebar-header">组件面板</div>
+          <div class="sidebar-content hiprintEpContainer rect-printElement-types">
+            <a-collapse v-model:activeKey="activeCollapse" ghost>
+              <a-collapse-panel key="basic" header="基础打印">
+                <div class="element-grid">
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.text">
+                      <div class="element-icon"><FontSizeOutlined /></div>
+                      <span class="element-label">文本</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.image" style>
-                      <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
-                      <p class="glyphicon-class">图片</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.image">
+                      <div class="element-icon"><PictureOutlined /></div>
+                      <span class="element-label">图片</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
+                  <div class="element-item">
                     <a class="ep-draggable-item" tid="defaultModule.longText">
-                      <span class="glyphicon glyphicon-subscript" aria-hidden="true"></span>
-                      <p class="glyphicon-class">长文</p>
+                      <div class="element-icon"><ProfileOutlined /></div>
+                      <span class="element-label">长文</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.table" style>
-                      <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-                      <p class="glyphicon-class">表格</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.table">
+                      <div class="element-icon"><TableOutlined /></div>
+                      <span class="element-label">表格</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.emptyTable" style>
-                      <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-                      <p class="glyphicon-class">空白表格</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.emptyTable">
+                      <div class="element-icon"><AppstoreOutlined /></div>
+                      <span class="element-label">空白表格</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.html" style="">
-                      <span class="glyphicon glyphicon-header" aria-hidden="true"></span>
-                      <p class="glyphicon-class">html</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.html">
+                      <div class="element-icon"><CodeOutlined /></div>
+                      <span class="element-label">HTML</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.customText" style>
-                      <span class="glyphicon glyphicon-text-width" aria-hidden="true"></span>
-                      <p class="glyphicon-class">自定义</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.customText">
+                      <div class="element-icon"><EditOutlined /></div>
+                      <span class="element-label">自定义文本</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row class="drag_item_title">辅助</a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.hline" style>
-                      <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>
-                      <p class="glyphicon-class">横线</p>
+                </div>
+              </a-collapse-panel>
+              <a-collapse-panel key="auxiliary" header="辅助元素">
+                <div class="element-grid">
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.hline">
+                      <div class="element-icon"><MinusOutlined /></div>
+                      <span class="element-label">横线</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
-                    <a class="ep-draggable-item" tid="defaultModule.vline" style>
-                      <span class="glyphicon glyphicon-resize-vertical" aria-hidden="true"></span>
-                      <p class="glyphicon-class">竖线</p>
+                  <div class="element-item">
+                    <a class="ep-draggable-item" tid="defaultModule.vline">
+                      <div class="element-icon"><VerticalAlignMiddleOutlined /></div>
+                      <span class="element-label">竖线</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
+                  <div class="element-item">
                     <a class="ep-draggable-item" tid="defaultModule.rect">
-                      <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
-                      <p class="glyphicon-class">矩形</p>
+                      <div class="element-icon"><BorderOutlined /></div>
+                      <span class="element-label">矩形</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
+                  <div class="element-item">
                     <a class="ep-draggable-item" tid="defaultModule.oval">
-                      <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
-                      <p class="glyphicon-class">椭圆</p>
+                      <div class="element-icon"><ApartmentOutlined /></div>
+                      <span class="element-label">椭圆</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-              <a-row v-if="currVerInfo.verVal >= 55.3" style="height: 100px;">
-                <a-col :span="12" class="drag_item_box">
-                  <div>
+                </div>
+              </a-collapse-panel>
+              <a-collapse-panel v-if="currVerInfo.verVal >= 55.3" key="barcode" header="条码">
+                <div class="element-grid">
+                  <div class="element-item">
                     <a class="ep-draggable-item" tid="defaultModule.barcode">
-                      <span class="glyphicon glyphicon-barcode" aria-hidden="true"></span>
-                      <p class="glyphicon-class">条形码</p>
+                      <div class="element-icon"><BarcodeOutlined /></div>
+                      <span class="element-label">条形码</span>
                     </a>
                   </div>
-                </a-col>
-                <a-col :span="12" class="drag_item_box">
-                  <div>
+                  <div class="element-item">
                     <a class="ep-draggable-item" tid="defaultModule.qrcode">
-                      <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span>
-                      <p class="glyphicon-class">二维码</p>
+                      <div class="element-icon"><QrcodeOutlined /></div>
+                      <span class="element-label">二维码</span>
                     </a>
                   </div>
-                </a-col>
-              </a-row>
-            </a-col>
-          </a-row>
-        </a-card>
+                </div>
+              </a-collapse-panel>
+            </a-collapse>
+          </div>
+        </div>
       </a-col>
       <a-col :span="15">
         <a-card class="card-design">
@@ -354,7 +325,14 @@ import {decodeVer} from '@/utils'
 import {
   ZoomOutOutlined, ZoomInOutlined, RedoOutlined, EyeOutlined,
   PrinterOutlined, QuestionCircleOutlined, CloseOutlined, DownOutlined,
-  SaveOutlined
+  SaveOutlined, FontSizeOutlined, PictureOutlined, ProfileOutlined,
+  TableOutlined, CodeOutlined, EditOutlined,
+  MinusOutlined, VerticalAlignMiddleOutlined, BorderOutlined,
+  ApartmentOutlined, BarcodeOutlined, QrcodeOutlined,
+  AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined,
+  VerticalAlignTopOutlined, VerticalAlignBottomOutlined,
+  ColumnWidthOutlined, ColumnHeightOutlined,
+  AppstoreOutlined
 } from "@ant-design/icons-vue";
 // disAutoConnect();
 var hiprint, defaultElementTypeProvider, panel;
@@ -362,9 +340,10 @@ let hiprintTemplate;
 
 export default {
   name: "printDesign",
-  components: {printPreview, jsonView, ZoomOutOutlined, ZoomInOutlined, RedoOutlined, EyeOutlined, PrinterOutlined, QuestionCircleOutlined, CloseOutlined, DownOutlined, SaveOutlined},
+  components: {printPreview, jsonView, ZoomOutOutlined, ZoomInOutlined, RedoOutlined, EyeOutlined, PrinterOutlined, QuestionCircleOutlined, CloseOutlined, DownOutlined, SaveOutlined, FontSizeOutlined, PictureOutlined, ProfileOutlined, TableOutlined, AppstoreOutlined, CodeOutlined, EditOutlined, MinusOutlined, VerticalAlignMiddleOutlined, BorderOutlined, ApartmentOutlined, BarcodeOutlined, QrcodeOutlined, AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined, VerticalAlignTopOutlined, VerticalAlignBottomOutlined, ColumnWidthOutlined, ColumnHeightOutlined},
   data() {
     return {
+      activeCollapse: ['basic'],
       template: null,
       curPaper: {
         type: 'A4',
@@ -1139,38 +1118,93 @@ export default {
   white-space: nowrap;
 }
 
-// 拖拽
-.drag_item_box {
-  height: 100%;
-  padding: 6px;
-}
-
-.drag_item_box > div {
-  height: 100%;
-  width: 100%;
-  background-color: #fff;
+// 组件面板侧边栏
+.element-sidebar {
+  height: 100vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #f0f0f0;
+}
+
+.sidebar-header {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  border-bottom: 1px solid #f0f0f0;
+  background: #fafafa;
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.element-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 4px;
+}
+
+.element-item {
+  display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.drag_item_box > div > a {
-  text-align: center;
-  text-decoration-line: none;
+.element-item > a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 4px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  background: #fafafa;
+  cursor: grab;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #1890ff;
+    background: #e6f7ff;
+    color: #1890ff;
+  }
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
-.drag_item_box > div > a > span {
-  font-size: 28px;
+.element-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  color: #595959;
+
+  .element-item > a:hover & {
+    color: #1890ff;
+  }
 }
 
-.drag_item_box > div > a > p {
-  margin: 0;
+.element-label {
+  font-size: 12px;
+  white-space: nowrap;
+  color: #666;
 }
 
-.drag_item_title {
-  font-size: 16px;
-  padding: 12px 6px 0 6px;
-  font-weight: bold;
+:deep(.ant-collapse-header) {
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  color: #666 !important;
+}
+
+:deep(.ant-collapse-content-box) {
+  padding: 4px 8px !important;
 }
 
 // 默认图片
