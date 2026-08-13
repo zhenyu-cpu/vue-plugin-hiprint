@@ -1,51 +1,6 @@
 <template>
   <div id="app">
-    <a-space class="logos" style="float: left">
-      <img src="./assets/logo.png" />
-      <img src="./assets/hi.png" />
-      <div>期待大家的参与😁</div>
-    </a-space>
-    <a-row type="flex" class="menus">
-      <a-button-group>
-        <template v-for="demo in demoList" :key="demo.name">
-          <a-button
-            :type="demo.name === curDemo ? 'primary' : 'default'"
-            @click="curDemo = demo.name"
-          >
-            {{ demo.title }}
-          </a-button>
-        </template>
-      </a-button-group>
-      <div style="margin-left: 20px" />
-      <a-button
-        style="width: 200px; font-size: 16px"
-        :type="'templates' === curDemo ? 'primary' : 'default'"
-        @click="curDemo = 'templates'"
-      >
-        <template #icon><SearchOutlined /></template>
-        模 板 中 心
-      </a-button>
-      <div style="margin-left: 20px"></div>
-      <a-select
-        v-if="curDemo == 'printDesign'"
-        ref="verSelect"
-        v-model:value="version"
-        :options="versions"
-        @change="handleVerChange"
-        style="width: 160px"
-      >
-      </a-select>
-      <div style="margin-left: 20px"></div>
-      <a-select
-        v-if="i18nSupport"
-        ref="i18nSelect"
-        v-model:value="lang"
-        :options="languages"
-        @change="handleLangChange"
-        style="width: 160px"
-      >
-      </a-select>
-    </a-row>
+    <!-- 顶部导航已移除，设计面板占满全屏 -->
     <!-- 动态渲染组件，懒得去弄路由了 -->
     <keep-alive>
       <component :is="curDemo" />
@@ -195,20 +150,9 @@ export default {
 </script>
 
 <style lang="less">
-.logos {
-  padding: 6px 24px;
-  display: flex;
-  justify-content: center;
-  align-self: center;
-
-  img {
-    height: 40px;
-    width: 40px;
-  }
-}
-
-.menus {
-  padding: 10px 24px;
+#app {
+  height: 100vh;
+  overflow: hidden;
 }
 
 // hiprint 拖拽图片
