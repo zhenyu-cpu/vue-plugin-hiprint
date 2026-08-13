@@ -1,5 +1,5 @@
 <template>
-  <a-modal :visible="visible" :maskClosable="false"
+  <a-modal v-model:open="visible" :maskClosable="false"
            @cancel="hideModal" :width="80+'vw'">
     <a-spin :spinning="spinning" style="min-height: 100px">
       <div v-show="isMultiPanel" id="template-preview-printPagination" style="margin: 14px 0 0 10px;"></div>
@@ -16,17 +16,21 @@
         </a-col>
       </a-row>
     </a-spin>
-    <template slot="title">
+    <template #title>
       <a-space>
         <div style="margin-right: 20px">模板预览</div>
-        <a-button :loading="waitShowPrinter" type="primary" icon="printer" @click.stop="print">打印</a-button>
-        <a-button type="primary" icon="printer" @click.stop="toPdf">pdf</a-button>
-        <a-button type="primary" icon="printer" @click.stop="print2">直接打印</a-button>
+        <a-button :loading="waitShowPrinter" type="primary" @click.stop="print">
+          <template #icon><PrinterOutlined /></template>打印
+        </a-button>
+        <a-button type="primary" @click.stop="toPdf">
+          <template #icon><PrinterOutlined /></template>pdf
+        </a-button>
+        <a-button type="primary" @click.stop="print2">直接打印</a-button>
         <json-view :template="hiprintTemplate"/>
       </a-space>
     </template>
-    <template slot="footer">
-      <a-button key="close" type="info" @click="hideModal">
+    <template #footer>
+      <a-button key="close" type="default" @click="hideModal">
         关闭
       </a-button>
     </template>
@@ -34,6 +38,7 @@
 </template>
 
 <script>
+import { PrinterOutlined } from "@ant-design/icons-vue";
 import {hiprint} from '../../index'
 import jsonView from '../json-view.vue'
 import printPreview from "../custom/preview.vue";
@@ -43,7 +48,7 @@ import printData from "../design/print-data";
 let hiprintTemplate;
 export default {
   name: "templatePreview",
-  components: {printPreview, jsonView},
+  components: {printPreview, jsonView, PrinterOutlined},
   data() {
     return {
       visible: false,
@@ -138,11 +143,11 @@ export default {
   overflow-y: auto;
 }
 
-/deep/ .ant-modal-body {
+:deep( .ant-modal-body) {
   padding: 0px;
 }
 
-/deep/ .ant-modal-content {
+:deep( .ant-modal-content) {
   margin-bottom: 24px;
 }
 </style>

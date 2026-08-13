@@ -4,27 +4,27 @@
       <a-space style="margin-bottom: 10px">
         <a-button-group>
           <template v-for="(value,type) in paperTypes" :key="type">
-            <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)">
+            <a-button :type="curPaperType === type ? 'primary' : 'default'" @click="setPaper(type,value)">
               {{ type }}
             </a-button>
           </template>
-          <a-popover v-model="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
-            <div slot="content">
+          <a-popover v-model:open="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
+            <template #content>
               <a-input-group compact style="margin: 10px 10px">
-                <a-input type="number" v-model="paperWidth" style=" width: 100px; text-align: center"
+                <a-input type="number" v-model:value="paperWidth" style=" width: 100px; text-align: center"
                          placeholder="宽(mm)"/>
                 <a-input style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
                          placeholder="~" disabled
                 />
-                <a-input type="number" v-model="paperHeight" style="width: 100px; text-align: center; border-left: 0"
+                <a-input type="number" v-model:value="paperHeight" style="width: 100px; text-align: center; border-left: 0"
                          placeholder="高(mm)"/>
               </a-input-group>
               <a-button type="primary" style="width: 100%" @click="otherPaper">确定</a-button>
-            </div>
+            </template>
             <a-button :type="'other'==curPaperType?'primary':''">自定义纸张</a-button>
           </a-popover>
         </a-button-group>
-        <a-button type="text" icon="zoom-out" @click="changeScale(false)"></a-button>
+        <a-button type="text" @click="changeScale(false)"><template #icon><ZoomOutOutlined /></template></a-button>
         <a-input-number
           :value="scaleValue"
           :min="scaleMin"
@@ -35,10 +35,10 @@
           :formatter="value => `${(value * 100).toFixed(0)}%`"
           :parser="value => value.replace('%', '')"
         />
-        <a-button type="text" icon="zoom-in" @click="changeScale(true)"></a-button>
-        <a-button type="primary" icon="redo" @click="rotatePaper()">旋转</a-button>
-        <a-button type="primary" icon="eye" @click="preView">
-          预览
+        <a-button type="text" @click="changeScale(true)"><template #icon><ZoomInOutlined /></template></a-button>
+        <a-button type="primary" @click="rotatePaper()"><template #icon><RedoOutlined /></template>旋转</a-button>
+        <a-button type="primary" @click="preView">
+          <template #icon><EyeOutlined /></template>预览
         </a-button>
         <a-popconfirm
           title="是否确认清空?"
@@ -46,30 +46,32 @@
           okText="确定清空"
           @confirm="clearPaper"
         >
-          <a-icon slot="icon" type="question-circle-o" style="color: red"/>
-          <a-button type="danger">
+          <template #icon><QuestionCircleOutlined style="color: red"/></template>
+          <a-button type="primary" danger>
             清空
-            <a-icon type="close"/>
+            <template #icon><CloseOutlined /></template>
           </a-button>
         </a-popconfirm>
         <json-view :template="template"/>
         <a-dropdown>
-          <a-menu slot="overlay" @click="handleMenuClick">
-            <a-menu-item key="0">都不看,我就不看</a-menu-item>
-            <a-menu-item v-for="item in keyList" :key="item.key"> {{ item.name }}</a-menu-item>
-          </a-menu>
+          <template #overlay>
+            <a-menu @click="handleMenuClick">
+              <a-menu-item key="0">都不看,我就不看</a-menu-item>
+              <a-menu-item v-for="item in keyList" :key="item.key"> {{ item.name }}</a-menu-item>
+            </a-menu>
+          </template>
           <a-button style="margin-left: 8px"> 更多功能示例
-            <a-icon type="down"/>
+            <template #icon><DownOutlined /></template>
           </a-button>
         </a-dropdown>
       </a-space>
       <a-space v-if="'1' == curKey" style="margin-bottom: 10px">
         <div class="btn-text-desc">直接打印/api打印:</div>
-        <a-button type="primary" icon="printer" @click="print">
-          直接打印
+        <a-button type="primary" @click="print">
+          <template #icon><PrinterOutlined /></template>直接打印
         </a-button>
-        <a-button type="primary" icon="printer" @click="printByFragments">
-          分批直接打印
+        <a-button type="primary" @click="printByFragments">
+          <template #icon><PrinterOutlined /></template>分批直接打印
         </a-button>
         <a-button type="primary" @click="onlyPrint">
           Api单独打印
@@ -131,7 +133,7 @@
       </a-space>
       <a-space v-if="'5' == curKey" style="margin-bottom: 10px">
         <div class="btn-text-desc">模板导入导出:</div>
-        <a-textarea style="width:30vw" v-model="jsonIn" @pressEnter="updateJson"
+        <a-textarea style="width:30vw" v-model:value="jsonIn" @pressEnter="updateJson"
                     placeholder="复制json模板到此后 点击右侧更新"
                     allow-clear/>
         <a-button type="primary" @click="updateJson">
@@ -140,7 +142,7 @@
         <a-button type="primary" @click="exportJson">
           导出json模板到 textArea
         </a-button>
-        <a-textarea style="width:30vw" v-model="jsonOut" placeholder="点击左侧导出json" allow-clear/>
+        <a-textarea style="width:30vw" v-model:value="jsonOut" placeholder="点击左侧导出json" allow-clear/>
       </a-space>
       <a-space v-if="'6' == curKey" style="margin-bottom: 10px">
         <div class="btn-text-desc">元素获取/更新参数:</div>
@@ -349,13 +351,18 @@ import jsonView from "../json-view.vue";
 import fontSize from "./font-size.js";
 import scale from "./scale.js";
 import {decodeVer} from '@/utils'
+import {
+  ZoomOutOutlined, ZoomInOutlined, RedoOutlined, EyeOutlined,
+  PrinterOutlined, QuestionCircleOutlined, CloseOutlined, DownOutlined,
+  SaveOutlined
+} from "@ant-design/icons-vue";
 // disAutoConnect();
 var hiprint, defaultElementTypeProvider, panel;
 let hiprintTemplate;
 
 export default {
   name: "printDesign",
-  components: {printPreview, jsonView},
+  components: {printPreview, jsonView, ZoomOutOutlined, ZoomInOutlined, RedoOutlined, EyeOutlined, PrinterOutlined, QuestionCircleOutlined, CloseOutlined, DownOutlined, SaveOutlined},
   data() {
     return {
       template: null,
@@ -1167,29 +1174,29 @@ export default {
 }
 
 // 默认图片
-/deep/ .hiprint-printElement-image-content {
+:deep( .hiprint-printElement-image-content) {
   img {
     content: url("~@/assets/logo.png");
   }
 }
 
 // 辅助线样式
-/deep/ .toplineOfPosition {
+:deep( .toplineOfPosition) {
   border: 0;
   border-top: 1px dashed purple;
 }
 
-/deep/ .bottomlineOfPosition {
+:deep( .bottomlineOfPosition) {
   border: 0;
   border-top: 1px dashed purple;
 }
 
-/deep/ .leftlineOfPosition {
+:deep( .leftlineOfPosition) {
   border: 0;
   border-left: 1px dashed purple;
 }
 
-/deep/ .rightlineOfPosition {
+:deep( .rightlineOfPosition) {
   border: 0;
   border-left: 1px dashed purple;
 }

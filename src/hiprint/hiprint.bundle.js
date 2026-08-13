@@ -67,7 +67,7 @@ window.io = io;
 var languages = {}
 const i18nModules = import.meta.glob("../i18n/**/*.json", { eager: true });
 for (const path in i18nModules) {
-  const lang = path.match(/\.\/([^.]+)/)?.[1]
+  const lang = path.match(/\.\.?\/(?:.*\/)?([^./]+)\.json$/)?.[1]
   if (lang) languages[lang] = i18nModules[path].default || i18nModules[path]
 }
 

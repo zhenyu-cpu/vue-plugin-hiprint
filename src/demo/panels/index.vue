@@ -3,7 +3,7 @@
     <a-row :gutter="[8,0]" style="margin-bottom: 10px">
       <a-col :span="4">
         <!-- 模板选择 -->
-        <a-select v-model='mode' showSearch @change="changeMode" :defaultValue="0" option-label-prop="label"
+        <a-select v-model:value='mode' showSearch @change="changeMode" :defaultValue="0" option-label-prop="label"
                   style="width: 100%;">
           <a-select-option v-for='(opt,idx) in modeList' :key='idx' :label="opt.name" :value='idx'>
             {{ opt.name }}
@@ -16,28 +16,28 @@
             <!-- 纸张设置 -->
             <a-button-group>
               <template v-for="(value,type) in paperTypes" :key="type">
-                <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)">
+                <a-button :type="curPaperType === type ? 'primary' : 'default'" @click="setPaper(type,value)">
                   {{ type }}
                 </a-button>
               </template>
-              <a-popover v-model="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
-                <div slot="content">
+              <a-popover v-model:open="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
+                <template #content>
                   <a-input-group compact style="margin: 10px 10px">
-                    <a-input type="number" v-model="paperWidth" style=" width: 100px; text-align: center"
+                    <a-input type="number" v-model:value="paperWidth" style=" width: 100px; text-align: center"
                              placeholder="宽(mm)"/>
                     <a-input style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
                              placeholder="~" disabled
                     />
-                    <a-input type="number" v-model="paperHeight"
+                    <a-input type="number" v-model:value="paperHeight"
                              style="width: 100px; text-align: center; border-left: 0"
                              placeholder="高(mm)"/>
                   </a-input-group>
                   <a-button type="primary" style="width: 100%" @click="otherPaper">确定</a-button>
-                </div>
+                </template>
                 <a-button :type="'other'==curPaperType?'primary':''">自定义纸张</a-button>
               </a-popover>
             </a-button-group>
-            <a-button type="text" icon="zoom-out" @click="changeScale(false)"></a-button>
+            <a-button type="text" @click="changeScale(false)"><template #icon><ZoomOutOutlined /></template></a-button>
             <a-input-number
               :value="scaleValue"
               :min="scaleMin"
@@ -48,21 +48,21 @@
               :formatter="value => `${(value * 100).toFixed(0)}%`"
               :parser="value => value.replace('%', '')"
             />
-            <a-button type="text" icon="zoom-in" @click="changeScale(true)"></a-button>
+            <a-button type="text" @click="changeScale(true)"><template #icon><ZoomInOutlined /></template></a-button>
             <!-- 预览/打印 -->
             <a-button-group>
-              <a-button type="primary" icon="eye" @click="preView">
-                预览
+              <a-button type="primary" @click="preView">
+                <template #icon><EyeOutlined /></template>预览
               </a-button>
               <a-button type="primary" @click="print">
                 直接打印
-                <a-icon type="printer"/>
+                <template #icon><PrinterOutlined /></template>
               </a-button>
             </a-button-group>
             <!-- 保存/清空 -->
             <a-button-group>
-              <a-button type="primary" icon="save" @click="save">
-                保存
+              <a-button type="primary" @click="save">
+                <template #icon><SaveOutlined /></template>保存
               </a-button>
               <a-popconfirm
                 title="是否确认清空?"
@@ -70,10 +70,10 @@
                 okText="确定清空"
                 @confirm="clearPaper"
               >
-                <a-icon slot="icon" type="question-circle-o" style="color: red"/>
-                <a-button type="danger">
+                <template #icon><QuestionCircleOutlined style="color: red"/></template>
+                <a-button type="primary" danger>
                   清空
-                  <a-icon type="close"/>
+                  <template #icon><CloseOutlined /></template>
                 </a-button>
               </a-popconfirm>
             </a-button-group>
@@ -115,6 +115,10 @@
 
 import printPreview from './preview'
 import jsonView from '../json-view.vue'
+import {
+  ZoomOutOutlined, ZoomInOutlined, EyeOutlined, SaveOutlined,
+  PrinterOutlined, QuestionCircleOutlined, CloseOutlined
+} from "@ant-design/icons-vue";
 
 import {hiprint} from '../../index'
 import {providers, providerList} from './providers'
@@ -123,7 +127,7 @@ import printData from './print-data'
 let hiprintTemplate;
 export default {
   name: "printPanels",
-  components: {printPreview, jsonView},
+  components: {printPreview, jsonView, ZoomOutOutlined, ZoomInOutlined, EyeOutlined, SaveOutlined, PrinterOutlined, QuestionCircleOutlined, CloseOutlined},
   data() {
     return {
       template: null,
@@ -306,7 +310,7 @@ export default {
 
 <style lang="less" scoped>
 // build 拖拽
-/deep/ .hiprint-printElement-type > li > ul > li > a {
+:deep( .hiprint-printElement-type > li > ul > li > a) {
   padding: 4px 4px;
   color: #1296db;
   line-height: 1;
@@ -315,7 +319,7 @@ export default {
 }
 
 // 默认图片
-/deep/ .hiprint-printElement-image-content {
+:deep( .hiprint-printElement-image-content) {
   img {
     content: url("~@/assets/logo.png");
   }

@@ -1,18 +1,22 @@
 <template>
-  <a-modal :visible="visible" :maskClosable="false"
+  <a-modal v-model:open="visible" :maskClosable="false"
            @cancel="hideModal" :width="width+'mm'">
     <a-spin :spinning="spinning" style="min-height: 100px">
       <div id="preview_content_custom"></div>
     </a-spin>
-    <template slot="title">
+    <template #title>
       <a-space>
         <div style="margin-right: 20px">打印预览</div>
-        <a-button :loading="waitShowPrinter" type="primary" icon="printer" @click.stop="print">打印</a-button>
-        <a-button type="primary" icon="printer" @click.stop="toPdf">pdf</a-button>
+        <a-button :loading="waitShowPrinter" type="primary" @click.stop="print">
+          <template #icon><PrinterOutlined /></template>打印
+        </a-button>
+        <a-button type="primary" @click.stop="toPdf">
+          <template #icon><PrinterOutlined /></template>pdf
+        </a-button>
       </a-space>
     </template>
-    <template slot="footer">
-      <a-button key="close" type="info" @click="hideModal">
+    <template #footer>
+      <a-button key="close" type="default" @click="hideModal">
         关闭
       </a-button>
     </template>
@@ -20,8 +24,10 @@
 </template>
 
 <script>
+import { PrinterOutlined } from "@ant-design/icons-vue";
 export default {
   name: "printPreview",
+  components: { PrinterOutlined },
   props: {},
   data() {
     return {
@@ -75,11 +81,11 @@ export default {
 </script>
 <style lang="less" scoped>
 
-/deep/ .ant-modal-body {
+:deep( .ant-modal-body) {
   padding: 0px;
 }
 
-/deep/ .ant-modal-content {
+:deep( .ant-modal-content) {
   margin-bottom: 24px;
 }
 </style>
