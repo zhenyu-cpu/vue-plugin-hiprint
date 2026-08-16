@@ -5,7 +5,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/vue-plugin-hiprint',
+  base: '/vue-plugin-hiprint/',
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
