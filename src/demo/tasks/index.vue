@@ -5,44 +5,46 @@
         <a-space>
           <!-- 纸张设置 -->
           <a-button-group>
-            <template v-for="(value,type) in paperTypes">
-              <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)" :key="type">
+            <template v-for="(value,type) in paperTypes" :key="type">
+              <a-button :type="curPaperType === type ? 'primary' : 'default'" @click="setPaper(type,value)">
                 {{ type }}
               </a-button>
             </template>
-            <a-popover v-model="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
-              <div slot="content">
+            <a-popover v-model:open="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
+              <template #content>
                 <a-input-group compact style="margin: 10px 10px">
-                  <a-input type="number" v-model="paperWidth" style=" width: 100px; text-align: center"
+                  <a-input type="number" v-model:value="paperWidth" style=" width: 100px; text-align: center"
                            placeholder="宽(mm)"/>
                   <a-input style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
                            placeholder="~" disabled
                   />
-                  <a-input type="number" v-model="paperHeight" style="width: 100px; text-align: center; border-left: 0"
+                  <a-input type="number" v-model:value="paperHeight" style="width: 100px; text-align: center; border-left: 0"
                            placeholder="高(mm)"/>
                 </a-input-group>
                 <a-button type="primary" style="width: 100%" @click="otherPaper">确定</a-button>
-              </div>
+              </template>
               <a-button :type="'other'==curPaperType?'primary':''">自定义纸张</a-button>
             </a-popover>
           </a-button-group>
           <!-- 打印数量 -->
           打印数量：
-          <a-slider v-model="count" style="width: 200px" :min="1" :max="10000"/>
-          <a-input-number v-model="count" :min="1" :max="10000" style="margin-left: 16px"/>
+          <a-slider v-model:value="count" style="width: 200px" :min="1" :max="10000"/>
+          <a-input-number v-model:value="count" :min="1" :max="10000" style="margin-left: 16px"/>
           <!-- 预览/打印 -->
           <a-button-group>
-            <a-button type="primary" icon="eye" @click="preView">
+            <a-button type="primary" @click="preView">
+              <template #icon><EyeOutlined /></template>
               预览
             </a-button>
             <a-button type="primary" @click="print">
               直接打印
-              <a-icon type="printer"/>
+              <template #icon><PrinterOutlined /></template>
             </a-button>
           </a-button-group>
           <!-- 保存/清空 -->
           <a-button-group>
-            <a-button type="primary" icon="save" @click="save">
+            <a-button type="primary" @click="save">
+              <template #icon><SaveOutlined /></template>
               保存
             </a-button>
             <a-popconfirm
@@ -51,10 +53,10 @@
               okText="确定清空"
               @confirm="clearPaper"
             >
-              <a-icon slot="icon" type="question-circle-o" style="color: red"/>
+              <template #icon><QuestionCircleOutlined style="color: red"/></template>
               <a-button type="danger">
                 清空
-                <a-icon type="close"/>
+                <CloseOutlined/>
               </a-button>
             </a-popconfirm>
           </a-button-group>
@@ -99,11 +101,27 @@ import TaskRunner from 'concurrent-tasks';
 import panel from './panel'
 import provider from './providers'
 import printData from './print-data'
+import { h } from 'vue'
+import {
+  CloseOutlined,
+  EyeOutlined,
+  PrinterOutlined,
+  QuestionCircleOutlined,
+  SaveOutlined
+} from '@ant-design/icons-vue';
 
 let hiprintTemplate;
 export default {
   name: "printCustom",
-  components: {printPreview, jsonView},
+  components: {
+    printPreview,
+    jsonView,
+    CloseOutlined,
+    EyeOutlined,
+    PrinterOutlined,
+    QuestionCircleOutlined,
+    SaveOutlined
+  },
   data() {
     return {
       template: null,
@@ -220,24 +238,15 @@ export default {
       }
       this.$error({
         title: "客户端未连接",
-        content: (h) => (
-          <div>
-            连接【{hiwebSocket.host}】失败！
-            <br />
-            请确保目标服务器已
-            <a
-              href="https://gitee.com/CcSimple/electron-hiprint/releases"
-              target="_blank"
-            >
-              下载
-            </a>
-            并
-            <a href="hiprint://" target="_blank">
-              运行
-            </a>
-            打印服务！
-          </div>
-        ),
+        content: () => h('div', [
+          `连接【${hiwebSocket.host}】失败！`,
+          h('br'),
+          '请确保目标服务器已',
+          h('a', {href: 'https://gitee.com/CcSimple/electron-hiprint/releases', target: '_blank'}, '下载'),
+          '并',
+          h('a', {href: 'hiprint://', target: '_blank'}, '运行'),
+          '打印服务！'
+        ]),
       });
     },
     // 队列打印
@@ -301,21 +310,17 @@ export default {
         duration: 0,
         placement: 'topLeft',
         description: '点击关闭所有任务',
-        btn: h => {
+        btn: () => {
           return h(
             'a-button',
             {
-              props: {
-                type: 'danger',
-                size: 'small',
-              },
-              on: {
-                click: () => {
-                  that.$notification.close(tasksKey);
-                  // 详情请查阅文档
-                  runner.removeAll();
-                  that.$message.info('已移除所有任务');
-                },
+              type: 'danger',
+              size: 'small',
+              onClick: () => {
+                that.$notification.close(tasksKey);
+                // 详情请查阅文档
+                runner.removeAll();
+                that.$message.info('已移除所有任务');
               },
             },
             '关闭任务',

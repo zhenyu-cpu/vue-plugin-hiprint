@@ -1,0 +1,289 @@
+/* ============================================================
+ * hiprint-antdv.css
+ * 右侧属性设置面板 ant-design-vue v5 视觉皮肤
+ *
+ * 背景：右侧属性面板由 hiprint.bundle.js 内部 jQuery 动态渲染
+ * （约 140 个原生 input/select/textarea/checkbox/button/range），
+ * 无法直接注入 antdv Vue 组件。本文件通过 CSS 覆盖让这些原生
+ * 控件的视觉与 ant-design-vue v5 完全一致：
+ *   - 主色 #1677ff
+ *   - 圆角 6px
+ *   - focus 光环 rgba(5,145,255,.1)
+ *   - hover / active 态
+ * ============================================================ */
+
+/* ---------- 参数 TAB（对齐 antd Tabs） ---------- */
+.prop-tabs {
+  background-color: #fff;
+}
+.prop-tabs .prop-tab-items {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+}
+.prop-tabs .prop-tab-items .prop-tab-item {
+  position: relative;
+  margin: 0 32px 0 0;
+}
+.prop-tabs .prop-tab-items .prop-tab-item .tab-title {
+  height: 39px;
+  line-height: 39px;
+  padding: 0 4px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.88);
+  transition: color 0.2s;
+}
+.prop-tabs .prop-tab-items .prop-tab-item:hover .tab-title {
+  color: #4096ff;
+}
+.prop-tabs .prop-tab-items li.active .tab-title {
+  font-weight: 600;
+  color: #1677ff;
+}
+.prop-tabs .prop-tab-items li.active {
+  border: none;
+  border-bottom: 2px solid #1677ff;
+  color: #1677ff;
+  height: 40px;
+  line-height: 39px;
+}
+
+/* ---------- 属性网格（对齐 antd Form 间距） ---------- */
+.hiprint-option-items {
+  padding: 16px 16px 8px;
+  align-items: flex-start;
+}
+.hiprint-option-items .hiprint-option-item {
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+.hiprint-option-items .hiprint-option-item-row {
+  width: 100%;
+}
+.hiprint-option-item-label {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.72);
+  line-height: 1.5714;
+}
+
+/* ---------- 基础控件（对齐 antd input / select / textarea） ---------- */
+.hiprint-option-items .hiprint-option-item-field input,
+.hiprint-option-items .hiprint-option-item-field select,
+.hiprint-option-items .hiprint-option-item-field textarea {
+  width: 100%;
+  height: 32px;
+  padding: 4px 11px;
+  font-size: 14px;
+  line-height: 1.5714;
+  color: rgba(0, 0, 0, 0.88);
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  transition: all 0.2s;
+  z-index: 1;
+  outline: none;
+}
+.hiprint-option-items .hiprint-option-item-field textarea {
+  height: auto;
+  min-height: 64px;
+  resize: vertical;
+}
+/* antd input hover */
+.hiprint-option-items .hiprint-option-item-field input:hover,
+.hiprint-option-items .hiprint-option-item-field select:hover,
+.hiprint-option-items .hiprint-option-item-field textarea:hover {
+  border-color: #4096ff;
+}
+/* antd input focus 光环 */
+.hiprint-option-items .hiprint-option-item-field input:focus,
+.hiprint-option-items .hiprint-option-item-field select:focus,
+.hiprint-option-items .hiprint-option-item-field textarea:focus {
+  border-color: #1677ff;
+  box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+  outline: 0;
+}
+/* 禁用态 */
+.hiprint-option-items .hiprint-option-item-field input[disabled],
+.hiprint-option-items .hiprint-option-item-field select[disabled],
+.hiprint-option-items .hiprint-option-item-field textarea[disabled] {
+  color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.04);
+  cursor: not-allowed;
+}
+/* 只读 */
+.hiprint-option-items .hiprint-option-item-field input[readonly] {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* select 下拉箭头（对齐 antd） */
+.hiprint-option-items .hiprint-option-item-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 16 16' fill='rgba(0,0,0,0.45)'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+/* ---------- checkbox / radio（对齐 antd Checkbox） ---------- */
+.hi-pretty {
+  margin-right: 0;
+}
+.hi-pretty .state label {
+  text-indent: 1.6em;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.88);
+  cursor: pointer;
+}
+/* 方框 */
+.hi-pretty .state label:before {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  top: 2px;
+  transition: all 0.2s;
+}
+.hi-pretty .state label:after {
+  top: 2px;
+}
+/* hover */
+.hi-pretty:hover .state label:before {
+  border-color: #4096ff;
+}
+/* checked: antd 蓝底白勾 */
+.hi-pretty.p-default input:checked ~ .state label:before {
+  border-color: #1677ff;
+  background-color: #1677ff !important;
+}
+.hi-pretty.p-default input:checked ~ .state label:after {
+  width: 16px;
+  height: 16px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3E%3Cpath d='M12.207 4.793a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L6.5 9.086l4.293-4.293a1 1 0 0 1 1.414 0z'/%3E%3C/svg%3E") no-repeat center center !important;
+  background-size: 100% 100% !important;
+  transform: scale(1) !important;
+  border: none !important;
+}
+
+/* ---------- 按钮（对齐 antd Button） ---------- */
+.hiprint-option-item-settingBtn {
+  height: 32px;
+  line-height: 30px;
+  font-size: 14px;
+  padding: 0 15px;
+  background: #1677ff;
+  border-radius: 6px;
+  border: 1px solid #1677ff;
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hiprint-option-item-settingBtn:hover {
+  background: #4096ff;
+  border-color: #4096ff;
+}
+.hiprint-option-item-settingBtn:active {
+  background: #0958d9;
+  border-color: #0958d9;
+}
+.hiprint-option-item-deleteBtn {
+  background: #ff4d4f;
+  border-color: #ff4d4f;
+  box-shadow: 0 2px 0 rgba(255, 77, 79, 0.1);
+}
+.hiprint-option-item-deleteBtn:hover {
+  background: #ff7875;
+  border-color: #ff7875;
+}
+
+/* ---------- range 滑杆（对齐 antd Slider） ---------- */
+.hiprint-option-items .hiprint-option-item-field input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  padding: 0;
+  border: none;
+  background: rgba(5, 5, 5, 0.06);
+  border-radius: 2px;
+  cursor: pointer;
+}
+.hiprint-option-items .hiprint-option-item-field input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1677ff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.hiprint-option-items .hiprint-option-item-field input[type='range']::-webkit-slider-thumb:hover {
+  border-color: #4096ff;
+}
+.hiprint-option-items .hiprint-option-item-field input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #1677ff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* ---------- 普通 checkbox（对齐 antd Checkbox，用于水印时间等） ---------- */
+.hiprint-option-item-field input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0 !important;
+  padding: 0;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  flex: none;
+}
+.hiprint-option-item-field input[type='checkbox']:hover {
+  border-color: #4096ff;
+}
+.hiprint-option-item-field input[type='checkbox']:checked {
+  border-color: #1677ff;
+  background-color: #1677ff;
+}
+.hiprint-option-item-field input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 6px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* ---------- 表格列配置选中项 ---------- */
+.hiprint-option-table-selected-columns .hiprint-option-table-selected-item {
+  padding: 4px 6px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background: #fff;
+  transition: all 0.2s;
+}
+.hiprint-option-table-selected-columns .hiprint-option-table-selected-item:hover {
+  border-color: #4096ff;
+}

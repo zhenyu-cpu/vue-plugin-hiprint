@@ -3,12 +3,12 @@
     <a-button type="primary" @click="show">
       查看模板json
     </a-button>
-    <a-modal :visible="visible" :maskClosable="false"
+    <a-modal :open="visible" :maskClosable="false"
              @cancel="hideModal">
       <a-spin :spinning="spinning" style="min-height: 100px">
         <a-textarea style="width:40vw;height:50vh" v-model:value="jsonOut"/>
       </a-spin>
-      <template slot="title">
+      <template #title>
         <a-space>
           <div style="margin-right: 20px">JSON</div>
           <a-switch checked-children="tid模式" un-checked-children="默认" v-model:checked="tidMode"
@@ -17,8 +17,8 @@
                     @change="onModeChange"/>
         </a-space>
       </template>
-      <template slot="footer">
-        <a-button key="close" type="info" @click="hideModal">
+      <template #footer>
+        <a-button key="close" type="default" @click="hideModal">
           关闭
         </a-button>
       </template>

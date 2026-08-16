@@ -46,8 +46,7 @@ jobs:
         if: ${{ steps.check_diff.outputs.diff || steps.check_diff2.outputs.diff }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 20
 
       - name: 安装依赖
         if: ${{ steps.check_diff.outputs.diff || steps.check_diff2.outputs.diff }}
@@ -69,12 +68,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
 
-      - name: pubBeta
-        if: ${{ steps.check_diff.outputs.diff && !startsWith(github.ref, 'refs/tags/0.') }}
-        run: npm run pub-beta
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: 构建demo
         if: ${{ steps.check_diff.outputs.diff || steps.check_diff2.outputs.diff }}
         env:
@@ -95,14 +88,14 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITEE_KEY }}
         with:
-          source-repo: git@github.com:CcSimple/vue-plugin-hiprint.git
-          destination-repo: git@gitee.com:CcSimple/vue-plugin-hiprint.git
+          source-repo: git@github.com:zhenyu-cpu/vue-plugin-hiprint.git
+          destination-repo: git@gitee.com:zhenyu-cpu/vue-plugin-hiprint.git
 
       - name: giteePages
         if: ${{ steps.check_diff.outputs.diff || steps.check_diff2.outputs.diff }}
         uses: yanglbme/gitee-pages-action@master
         with:
-          gitee-username: CcSimple
+          gitee-username: zhenyu-cpu
           gitee-password: ${{ secrets.GITEE_PASSWORD }}
-          gitee-repo: CcSimple/vue-plugin-hiprint
+          gitee-repo: zhenyu-cpu/vue-plugin-hiprint
           branch: gh-pages

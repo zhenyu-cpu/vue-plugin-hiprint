@@ -3,7 +3,7 @@ export const desc = '不一样的表格显示效果';
 export const author = '群友提供'
 export const link = 'https://github.com/CcSimple'
 // url 或者 base64 或者 require('../../../assets/logo.png')
-export const preview = '/static/template4.png';
+export const preview = `${import.meta.env.BASE_URL}/static/template4.png`;
 export const extendCss = "<style>.products  {\n" +
     "    display: flex;\n" +
     "    flex-wrap: wrap;\n" +
